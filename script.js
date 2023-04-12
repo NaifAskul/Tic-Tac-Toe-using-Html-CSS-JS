@@ -3,7 +3,7 @@ let popupRef = document.querySelector(".popup");
 let newgameBtn = document.getElementById("new-game");
 let restartBtn = document.getElementById("restart");
 let msgRef = document.getElementById("message");
-let playerDisplay = document.querySelector(".display-player");
+let playerDisplay = document.getElementById('display');
 let clickS = new Audio("click.wav");
 //Winning Pattern Array
 let winningPattern = [
@@ -18,8 +18,8 @@ let winningPattern = [
 ];
 //Player 'X' plays first
 let xTurn = true;
-let countD = 1;
 let count = 0;
+playerDisplay.innerHTML = "Player X's turn";
 //Disable All Buttons
 const disableButtons = () => {
   btnRef.forEach((element) => (element.disabled = true));
@@ -33,13 +33,20 @@ const enableButtons = () => {
     element.innerText = "";
     element.disabled = false;
   });
+
+  xTurn = true;
+  playerDisplay.classList.remove("hide");
+  playerDisplay.innerHTML = "Player X's turn";
+
   //disable popup
   popupRef.classList.add("hide");
+  
 };
 
 //This function is executed when a player wins
 const winFunction = (letter) => {
   disableButtons();
+  playerDisplay.classList.add("hide");
   if (letter == "X") {
     msgRef.innerHTML = "&#x1F389; <br> 'X' Wins";
   } else {
@@ -50,29 +57,20 @@ const winFunction = (letter) => {
 //Function for draw
 const drawFunction = () => {
   disableButtons();
+  playerDisplay.classList.add("hide");
   msgRef.innerHTML = "&#x1F60E; <br> It's a Draw";
 };
 
 //New Game
 newgameBtn.addEventListener("click", () => {
   count = 0;
-  countD = 1;
-
-  playerDisplay.innerText = "X";
-  playerDisplay.classList.remove(`player${"O"}`);
-  playerDisplay.classList.add(`player${"X"}`);
-  
   enableButtons();
+
 });
 restartBtn.addEventListener("click", () => {
   count = 0;
-  countD = 1;
-
-  playerDisplay.innerText = "X";
-  playerDisplay.classList.remove(`player${"O"}`);
-  playerDisplay.classList.add(`player${"X"}`);
-
   enableButtons();
+
 });
 
 //Win Logic
@@ -101,38 +99,25 @@ btnRef.forEach((element) => {
 
     clickS.play();
 
-    if(countD % 2 == 0){
-   
-     element.innerText = "X";
-      playerDisplay.innerText = element.innerText;
-      playerDisplay.classList.remove(`player${"X"}`);
-      playerDisplay.classList.add(`player${"O"}`);
-
-    }else{
-
-      element.innerText = "O";
-      playerDisplay.innerText = element.innerText;
-      playerDisplay.classList.remove(`player${"O"}`);
-      playerDisplay.classList.add(`player${"X"}`);
-
-   
-
-    }
-
     if (xTurn) {
       xTurn = false;
       //Display X
       element.innerText = "X";
       element.disabled = true;
+
+      playerDisplay.innerHTML = "Player O's turn";
+
     } else {
       xTurn = true;
       //Display O
       element.innerText = "O";
       element.disabled = true;
+      
+      playerDisplay.innerHTML = "Player X's turn";
+
     }
     //Increment count on each click
     count += 1;
-    countD+=1;
     
     if (count == 9) {
       drawFunction();
