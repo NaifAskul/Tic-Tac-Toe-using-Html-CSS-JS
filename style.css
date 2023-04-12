@@ -17,6 +17,19 @@ html {
   top: 50%;
   left: 50%;
 }
+
+.display{
+   color: white;
+   font-size:200%;
+   font-weight: bold;
+   text-align: center;
+   margin-bottom: 5em;
+}
+
+.hide{
+  display: none;
+}
+
 .container {
   width: 70vmin;
   height: 70vmin;
@@ -75,18 +88,4 @@ html {
 }
 .popup.hide {
   display: none;
-}
-
-.x-hover:hover::after{
-
-  content: "X";
-  opacity: 0.6;
-
-}
-
-.o-hover:hover::after{
-
-  content: "O";
-  opacity: 0.6;
-  
 }

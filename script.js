@@ -3,6 +3,7 @@ let popupRef = document.querySelector(".popup");
 let newgameBtn = document.getElementById("new-game");
 let restartBtn = document.getElementById("restart");
 let msgRef = document.getElementById("message");
+let playerDisplay = document.querySelector(".display-player");
 let clickS = new Audio("click.wav");
 //Winning Pattern Array
 let winningPattern = [
@@ -17,8 +18,8 @@ let winningPattern = [
 ];
 //Player 'X' plays first
 let xTurn = true;
+let countD = 1;
 let count = 0;
-
 //Disable All Buttons
 const disableButtons = () => {
   btnRef.forEach((element) => (element.disabled = true));
@@ -55,10 +56,22 @@ const drawFunction = () => {
 //New Game
 newgameBtn.addEventListener("click", () => {
   count = 0;
+  countD = 1;
+
+  playerDisplay.innerText = "X";
+  playerDisplay.classList.remove(`player${"O"}`);
+  playerDisplay.classList.add(`player${"X"}`);
+  
   enableButtons();
 });
 restartBtn.addEventListener("click", () => {
   count = 0;
+  countD = 1;
+
+  playerDisplay.innerText = "X";
+  playerDisplay.classList.remove(`player${"O"}`);
+  playerDisplay.classList.add(`player${"X"}`);
+
   enableButtons();
 });
 
@@ -87,7 +100,25 @@ btnRef.forEach((element) => {
   element.addEventListener("click", () => {
 
     clickS.play();
-    
+
+    if(countD % 2 == 0){
+   
+     element.innerText = "X";
+      playerDisplay.innerText = element.innerText;
+      playerDisplay.classList.remove(`player${"X"}`);
+      playerDisplay.classList.add(`player${"O"}`);
+
+    }else{
+
+      element.innerText = "O";
+      playerDisplay.innerText = element.innerText;
+      playerDisplay.classList.remove(`player${"O"}`);
+      playerDisplay.classList.add(`player${"X"}`);
+
+   
+
+    }
+
     if (xTurn) {
       xTurn = false;
       //Display X
@@ -95,12 +126,14 @@ btnRef.forEach((element) => {
       element.disabled = true;
     } else {
       xTurn = true;
-      //Display Y
+      //Display O
       element.innerText = "O";
       element.disabled = true;
     }
     //Increment count on each click
     count += 1;
+    countD+=1;
+    
     if (count == 9) {
       drawFunction();
     }
